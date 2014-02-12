@@ -31,7 +31,8 @@
 	var updateWidget = function(city, state, temp) {
 		console.log("Current temperature in " + city + " is: " + temp);
 		
-		$('#weatherTitle').html(city + ', ' + state);
+		$('#weatherTitleCS').html(city + ', ' + state);
+		$('#weatherTitleTemp').html(temp);
 		
 	};
 
