@@ -91,9 +91,16 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+div.wrapper {
+    width:1000px;
+}
 
-
-
+div.weatherWrapper {
+    border : 1px #CCCCCC solid;
+    background-color: #eaeaea;
+    width:300px;
+    height:150px;
+}
 
 
 
