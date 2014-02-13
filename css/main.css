@@ -114,7 +114,13 @@ div.weatherWrapper {
     left:286px;
 }
 
+#spDefault {
+    visibility : visible;
+}
 
+#spWeather {
+    display : none;
+}
 
 
 
