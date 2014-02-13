@@ -34,7 +34,7 @@ ManyAPIs.WUnderground = function()  {
 	// Public Methods
     var init = function()   {
      	// Do some setup stuff
-    	console.log("init()");
+    	console.log("init() " + head.browser.name + " " + head.browser.version);
     	$( ".draggable" ).draggable({ handle:"div:first-of-type"});
     };
 
