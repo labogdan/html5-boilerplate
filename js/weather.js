@@ -86,6 +86,9 @@ ManyAPIs.WUnderground = function()  {
        	$("#inpLookupCont").click(function() {
     		lookupRepeat(queryTimer);	
     	});
+       	$("#inpLookupStop").click(function() {
+    		stopLookup(queryTimer);	
+    	});
 	};
 
 	var stopLookup = function(city, state) {
