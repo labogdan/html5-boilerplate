@@ -1,24 +1,34 @@
-ManyAPIs.WUnderground = function()  {
+ManyAPIs.WeatherWidget = function()  {
 
-	//	Constant Declarations 
-	var WEATHERURL = "http://api.wunderground.com/api/c7843c7302d3a7db/geolookup/conditions/q/";
-	var URLRESPONSE = ".json";
+	/*
+	 * Constants and Private Variables
+	 */
+	 
+	var WEATHERURL = "http://api.wunderground.com/api/c7843c7302d3a7db/geolookup/conditions/q/",
+		URLRESPONSE = ".json",
 
-	//	Private Vars
-	var queryMap = [];
-	var queryTimer = "10000";
+		queryMap = [],
+		queryTimer = "10000";
 
-	//	Public Vars
+	/*
+	 * Public Variables
+	 */
+
     var myPublicProperty = 1;
 
-	// Private Methods
-	var updateWidget = function(city, state, temp) {
-		console.log("Current temperature in " + city + " is: " + temp);
+	/*
+	 * Private Methods
+	 */
+
+	var updateWidget = function(options) {
+		
+		console.log("Current temperature in " + options.locationCity + " is: " + options.temp_f);
 		
 		hideDefaultText();
 		
-		$('#weatherTitleCS').html(city + ', ' + state);
-		$('#weatherTitleTemp').html(temp);
+		$('#weatherTitleCS').html(options.locationCity + ', ' + options.locationState);
+		$('#weatherTitleTemp').html(options.temp_f);
+		$("#icoWeather").attr("src", options.icon);
 	};
 
 	var hideDefaultText = function() {
@@ -39,9 +49,9 @@ ManyAPIs.WUnderground = function()  {
 	};
 
 	var getDataFromForm = function() {
-		var city = $("#inpCity").val();
-		var state = $("#inpState").val();
-		var retVal = {};
+		var city = $("#inpCity").val(),
+			state = $("#inpState").val(),
+			retVal = {};
 		
 		retVal.city = city;
 		retVal.state = state;
@@ -61,38 +71,23 @@ ManyAPIs.WUnderground = function()  {
 					alert(parsed_json['response']['error'].description);
 					return;
 				} else if (parsed_json['location']){
-					var locationCity = parsed_json['location']['city'];
-					var locationState = parsed_json['location']['state'];
-					var temp_f = parsed_json['current_observation']['temp_f'];
-					updateWidget(locationCity, locationState, temp_f);
+					var params = {};
+					params.locationCity = parsed_json['location']['city'];
+					params.locationState = parsed_json['location']['state'];
+					params.temp_f = parsed_json['current_observation']['temp_f'];
+					params.icon = parsed_json['current_observation']['icon_url'];
+					updateWidget(params);
 				} else if (parsed_json['response']['results']) {
 					console.log(parsed_json['response']['results']);
-					alert('Sorry - too many results.  Check your spelling and try again.')
+					alert('Sorry - too many results.  Check your spelling and try again.');
 				}
 			}
 		});
 	};
 	
-	// Public Methods
-
-    var init = function()   {
-
-    	console.log("init() " + head.browser.name + " " + head.browser.version);
-    	$( ".draggable" ).draggable({ handle:"div:first-of-type"});
-    	
-    	$("#inpLookupOnce").click(function() {
-    		lookupOnce();	
-    	});
-       	$("#inpLookupCont").click(function() {
-    		lookupRepeat(queryTimer);	
-    	});
-       	$("#inpLookupStop").click(function() {
-    		stopLookup(queryTimer);	
-    	});
-	};
-
-	var stopLookup = function(city, state) {
-		console.log(removeIntervalForCity(city, state));
+	var stopLookup = function() {
+		var data = getDataFromForm();
+		console.log(removeIntervalForCity(data.city, data.state));
 	};
 
 	var lookupOnce = function() {
@@ -104,6 +99,26 @@ ManyAPIs.WUnderground = function()  {
 		var data = getDataFromForm();
 		queryLocation(data.city, data.state);
 		queryMap[data.city+data.state] =  setInterval(function(){queryLocation(data.city, data.state);}, timer);
+	};
+
+	/*
+	 * Public Methods
+	 */
+
+    var init = function()   {
+
+    	console.log("init() " + head.browser.name + " " + head.browser.version);
+
+    	$( ".draggable" ).draggable({ handle:"div:first-of-type"});
+    	$("#inpLookupOnce").click(function() {
+    		lookupOnce();	
+    	});
+       	$("#inpLookupCont").click(function() {
+    		lookupRepeat(queryTimer);	
+    	});
+       	$("#inpLookupStop").click(function() {
+    		stopLookup();	
+    	});
 	};
 
 	var oPublic = {
