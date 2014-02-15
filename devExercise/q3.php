@@ -2,45 +2,73 @@
 
 class Node {
 	
-	public $counter = 0;
-	
 	public $id;
 	public $path;
 	public $active = TRUE;
 	
 	function Node($destination, $id) {
-		echo $this->id = $id." ";
-		echo $this->path = $destination." ";
-		echo $this->active = TRUE."\n";
+		$this->id = $id;
+		$this->path = $destination;
+		$this->active = TRUE;
 		
 	}
 	
 }
 
 class NewNode extends Node {
-	public $count = 0;
-	
+
+	private $length = 0;
+	private $count = -1;
+	private $nodeArr = array();
+	private $numCycles = 0;
+		
 	function NewNode($howMany) {
+		global $argv;
+		$i = 0;
 		
-		$nodeArr = array();
-		
-		for ($i = 0; $i < $howMany; $i++) {
-			$nodeArr[$i] = new Node(2,$this->count++);
-		}
-/*		$n1 = new Node(2,$this->count++);
-		$n2 = new Node(3,$this->count++);
-		$n3 = new Node(4,$this->count++);
-		$n4 = new Node(5,$this->count++);
-		$n5 = new Node(6,$this->count++);
-		$n6 = new Node(-1,$this->count++);
-		$n7 = new Node(0,$this->count++);*/
+		if (($file = fopen($argv[1], "r") or exit ("Sorry - file not found.")) != FALSE) {
+			while (!feof($file)) {
+				$data = fgets($file);
+				if ($this->count == -1) {
+					$this->length = $data;
+					echo "length = $this->length";
+					$this->count++;
+				} else {
+					$this->nodeArr[$i] = new Node($data,$this->count++);
+					echo $this->nodeArr[$i]->id." ";
+					echo $this->nodeArr[$i]->path." ";
+					//echo $nodeArr[$i]->active;
+					$i++;
+					 
+				}
+			}
+		}	
+		fclose($file);
 	}	
+
+	function traverseNodes() {
+		$currentPos = 0;
+
+		for ($i = 0; $i < $this->length ; $i++) {
+			if ($this->nodeArr[$i]->active == FALSE) {
+				$i++;
+				$currentPos = $i;
+				echo "node at ".$this->nodeArr[$i]->id." is".$this->nodeArr[$i]->active;
+			} else {
+				while ($this->nodeArr[$currentPos]->active == TRUE) {
+					$this->nodeArr[$currentPos]->active = FALSE;
+					$currentPos = $this->nodeArr[$currentPos]->path;
+					echo "currentPos = ".$currentPos; 
+				}
+			}
+		}
+	}
+
+
 }
 
-//$node1 = new Node(2);
-//$node2 = new Node(3);
-
 $node1 = new NewNode(7);
+$node1->traverseNodes();
 
 ?> 
  

@@ -9,7 +9,7 @@ class TwoDArray {
 		$myArr = array();
 
 		if (($file = fopen($argv[1], "r") or exit ("Sorry - file not found.")) != FALSE) {
-			while (($data = fgetcsv($file,1000," ")) != FALSE) {
+			while (($data = fgetcsv($file,1000," ")) != FALSE) { //TODO: need to make sure this doesn't stop at some arbitrary value
 				$num = count($data);
 				for ($c = 0; $c < $num; $c++) {
 					echo $data[$c]." ";
