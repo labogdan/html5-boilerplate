@@ -1,6 +1,17 @@
 <?php 
 
 /*
+ * QUESTION 3 - Following the Pointers
+ * Author: Andy Bogdan
+ * 
+ * Input: file integer denoting number of nodes, and list of connections between nodes
+ * Output: number of connections between nodes
+ * 
+ */
+ 
+ 
+ 
+/* 
  * This is the base Node class.  It holds information about one single point (node)
  * in the puzzle.
  * 
@@ -35,12 +46,14 @@ class NodeMap {
 	private $numCycles = 0;
 	
     /*
-     * Constructor that reads from file supplied at command line, instantiates
-     * nodes, and creates map of all nodes
+     * Method that reads from file supplied at command line, instantiates
+     * nodes, and creates map of all nodes.
+     * 
+     * nodeArr holds the map of all nodes.
      * 
      */
     
-	public function NodeMap() {
+	public function readFileFromParam() {
 		global $argv;
 		$i = 0;
         $count = -1;
@@ -76,7 +89,7 @@ class NodeMap {
     }
 
     /*
-     * Prints out the number of cycles that have been found.
+     * Prints out the number of cycles that have been found, from private variable numCycles.
      * 
      */
 
@@ -85,7 +98,7 @@ class NodeMap {
     }
 
     /*
-     * Traverses the nodes.  Each time a node is visited, it is marked
+     * Traverses the nodes (nodeArr).  Each time a node is visited, it is marked
      * as 'seen' (active set to FALSE).  
      * 
      * Since we mark a node once we see it, we don't have to worry about
@@ -124,6 +137,7 @@ class NodeMap {
 }
 
 $node1 = new NodeMap();
+$node1->readFileFromParam();
 $node1->traverseNodes();
 $node1->printNumCycles();
 
