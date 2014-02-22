@@ -107,7 +107,7 @@ ManyAPIs.WeatherWidget = function()  {
 
     var init = function()   {
 
-    	console.log("init() " + head.browser.name + " " + head.browser.version);
+//    	console.log("init() " + head.browser.name + " " + head.browser.version);
 
     	$( ".draggable" ).draggable({ handle:"div:first-of-type"});
     	$("#inpLookupOnce").click(function() {
