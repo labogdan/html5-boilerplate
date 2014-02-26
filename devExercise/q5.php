@@ -1,58 +1,58 @@
 <?php 
 
-class TwoDArray {
-	
-	private $arr = array();
-	
-	public function readFileFromParam() {
-		global $argv;
-		$myArr = array();
+/*
+ * QUESTION 5 - Spiral Printing
+ * Author: Andy Bogdan
+ * 
+ * This class takes as input an array.  It reads it and then outputs
+ * it in spiral order
+ * 
+ * Input: file array of values
+ * Output: same array is output, but in spiral order
+ * 
+ */
 
-		if (($file = fopen($argv[1], "r") or exit ("Sorry - file not found.")) != FALSE) {
-			while (($data = fgetcsv($file,1000," ")) != FALSE) { //TODO: need to make sure this doesn't stop at some arbitrary value
-				$num = count($data);
-				for ($c = 0; $c < $num; $c++) {
-					echo $data[$c]." ";
-				}
-			}
-			
-		}	
-		fclose($file);
-		
-	}
-	
-	public function printArray() {
-		
-/*		$myArray = array (
-			array(1,2,3),
-			array(4,5,6),
-			array(7,8,9),
-			array(10,11,12),
-			array(13,14,15)
-		);*/
-		
-		$myArray = $this->arr;
-		
-		$xLength = count($myArray);
-		$yLength = max(array_map('count', $myArray));
-		
-		echo $xLength;
-		
-		for ($i = 0; $i < $xLength; $i++) {
-			for ($j = 0; $j < $yLength; $j++) {
-				echo $myArray[$i][$j]." ";
-			}
-		}
-		
-	}
-	
+class TwoDArray {
+    
+    const DELIMITER = " ";  //declaring as constant, so it can be easily modified.
+    
+    private $arr = array();
+
+    /*
+     * Method to print out the array.
+     * 
+     */
+
+    public function printArray($arr) {
+        echo $arr." ";
+    }
+
+    /*
+     * This method reads the file as a command line parameter.  It then calls
+     * printArray() method to print it out.
+     */
+    
+    public function readFileFromParam() {
+        global $argv;
+        $myArr = array();
+
+        if (($file = fopen($argv[1], "r") or exit ("Sorry - file not found.")) != FALSE) {
+            while (($data = fgetcsv($file,1000,self::DELIMITER)) != FALSE) { //TODO: need to make sure this doesn't stop at some arbitrary value
+                $num = count($data);
+                for ($c = 0; $c < $num; $c++) {
+                     $this->printArray($data[$c]);
+                }
+            }
+            
+        }   
+        fclose($file);
+        
+    }
+    
 }
 
 $obj = new TwoDArray;
-
 $obj->readFileFromParam();
-
-//$obj->printArray();
-	
+    
 ?> 
  
