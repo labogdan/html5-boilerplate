@@ -6,7 +6,6 @@
  <?php 
  	echo '<p>Hello World</p>';
 	echo htmlspecialchars($_POST['name']);
-	
 	$file = "log-a-b.txt";
 		
 	if (file_exists($file)) {
